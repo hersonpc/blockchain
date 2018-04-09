@@ -36,6 +36,23 @@ class Blockchain {
         this.chain.push(newBlock);
     }
 
+    isChainValid() {
+        for (let i = 1; i < this.chain.length; i++) {
+            const previusBlock = this.chain[i -1];
+            const currentBlock = this.chain[i];
+
+            if (currentBlock.previousHash !== previusBlock.hash) {
+                return false;
+            }
+
+            if (currentBlock.hash !== currentBlock.calculateHash()) {
+                return false
+            }
+
+            return true;
+        }
+    }
+
 }
 
 
@@ -45,3 +62,4 @@ bc.addManualBlock(new Block({ valor: 2 }));
 bc.addManualBlock(new Block({ valor: 1 }));
 
 console.log(JSON.stringify(bc, null,  4));
+console.log("Esta chain é valida? ", bc.isChainValid());
